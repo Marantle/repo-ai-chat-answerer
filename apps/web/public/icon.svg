@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background -->
+  <rect width="200" height="200" fill="#1a1a2e" rx="20"/>
+  
+  <!-- Slop bucket -->
+  <path d="M60 120 L140 120 L150 170 L50 170 Z" fill="#6b7280" stroke="#4b5563" stroke-width="3"/>
+  <ellipse cx="100" cy="120" rx="40" ry="8" fill="#4b5563"/>
+  
+  <!-- Slop contents (messy bubbles) -->
+  <circle cx="80" cy="140" r="8" fill="#10b981" opacity="0.7"/>
+  <circle cx="95" cy="145" r="6" fill="#3b82f6" opacity="0.7"/>
+  <circle cx="110" cy="138" r="7" fill="#8b5cf6" opacity="0.7"/>
+  <circle cx="120" cy="148" r="5" fill="#f59e0b" opacity="0.7"/>
+  <circle cx="88" cy="152" r="6" fill="#ef4444" opacity="0.7"/>
+  <circle cx="105" cy="155" r="5" fill="#06b6d4" opacity="0.7"/>
+  
+  <!-- AI brain/circuit overlay -->
+  <g transform="translate(100, 60)">
+    <!-- Central node -->
+    <circle cx="0" cy="0" r="12" fill="#8b5cf6" stroke="#a78bfa" stroke-width="2"/>
+    
+    <!-- Connected nodes -->
+    <line x1="0" y1="0" x2="-20" y2="-15" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="-20" cy="-15" r="6" fill="#8b5cf6"/>
+    
+    <line x1="0" y1="0" x2="20" y2="-15" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="20" cy="-15" r="6" fill="#8b5cf6"/>
+    
+    <line x1="0" y1="0" x2="-25" y2="10" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="-25" cy="10" r="6" fill="#8b5cf6"/>
+    
+    <line x1="0" y1="0" x2="25" y2="10" stroke="#a78bfa" stroke-width="2"/>
+    <circle cx="25" cy="10" r="6" fill="#8b5cf6"/>
+  </g>
+  
+  <!-- Sparkles/glitches -->
+  <path d="M40 50 L42 55 L47 57 L42 59 L40 64 L38 59 L33 57 L38 55 Z" fill="#fbbf24"/>
+  <path d="M160 80 L162 85 L167 87 L162 89 L160 94 L158 89 L153 87 L158 85 Z" fill="#34d399"/>
+  <path d="M155 140 L157 143 L160 145 L157 147 L155 150 L153 147 L150 145 L153 143 Z" fill="#60a5fa"/>
+  
+  <!-- Text -->
+  <text x="100" y="192" font-family="monospace, sans-serif" font-size="14" font-weight="bold" fill="#a78bfa" text-anchor="middle">
+    REPO SLOP
+  </text>
+</svg>

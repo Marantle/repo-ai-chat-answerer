@@ -1,0 +1,33 @@
+{
+  "name": "repo-ai-chat-slop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "clean": "pnpm --filter web clean",
+    "lint": "pnpm -r lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "typecheck": "pnpm -r typecheck",
+    "ingest": "pnpm --filter @repo-slop/core ingest",
+    "ingest:batch": "pnpm --filter @repo-slop/core ingest:batch",
+    "eval": "pnpm --filter @repo-slop/core eval",
+    "test:chunking": "cd packages/core && pnpm tsx --env-file=../../.env scripts/test-chunking.ts",
+    "test:providers": "cd packages/core && pnpm tsx --env-file=../../.env scripts/test-providers.ts"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.1",
+    "eslint-config-next": "16.0.8",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.7.4",
+    "prisma": "^7.1.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}
