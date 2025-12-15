@@ -1,0 +1,136 @@
+generator client {
+  provider        = "prisma-client"
+  output          = "../generated"
+  previewFeatures = ["typedSql"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Repo {
+  id           String        @id @default(cuid())
+  name         String
+  rootPath     String        @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  chunks       Chunk[]
+  interactions Interaction[]
+  evalCases    EvalCase[]
+
+  @@map("repos")
+}
+
+model Chunk {
+  id                   String              @id @default(cuid())
+  repoId               String
+  repo                 Repo                @relation(fields: [repoId], references: [id], onDelete: Cascade)
+  filePath             String
+  startLine            Int
+  endLine              Int
+  kind                 ChunkKind
+  language             String?
+  text                 String
+  embedding            Unsupported("vector(1536)")?
+  createdAt            DateTime            @default(now())
+  interactionSources   InteractionSource[]
+
+  @@index([repoId])
+  @@map("chunks")
+}
+
+enum ChunkKind {
+  CODE
+  DOC
+}
+
+model Interaction {
+  id               String              @id @default(cuid())
+  repoId           String
+  repo             Repo                @relation(fields: [repoId], references: [id], onDelete: Cascade)
+  question         String
+  answer           String
+  modelName        String
+  durationMs       Int
+  promptTokens     Int?
+  completionTokens Int?
+  totalTokens      Int?
+  createdAt        DateTime            @default(now())
+  sources          InteractionSource[]
+  feedback         Feedback?
+  bookmarks        Bookmark[]
+
+  @@index([repoId])
+  @@index([createdAt])
+  @@map("interactions")
+}
+
+model InteractionSource {
+  id            String      @id @default(cuid())
+  interactionId String
+  interaction   Interaction @relation(fields: [interactionId], references: [id], onDelete: Cascade)
+  chunkId       String
+  chunk         Chunk       @relation(fields: [chunkId], references: [id], onDelete: Cascade)
+  score         Float
+
+  @@index([interactionId])
+  @@map("interaction_sources")
+}
+
+model Feedback {
+  id            String         @id @default(cuid())
+  interactionId String         @unique
+  interaction   Interaction    @relation(fields: [interactionId], references: [id], onDelete: Cascade)
+  rating        FeedbackRating
+  comment       String?
+  createdAt     DateTime       @default(now())
+
+  @@map("feedback")
+}
+
+enum FeedbackRating {
+  UP
+  DOWN
+}
+
+model EvalCase {
+  id            String    @id @default(cuid())
+  repoId        String
+  repo          Repo      @relation(fields: [repoId], references: [id], onDelete: Cascade)
+  slug          String
+  question      String
+  expectedNotes String?
+  createdAt     DateTime  @default(now())
+  runs          EvalRun[]
+
+  @@unique([repoId, slug])
+  @@index([repoId])
+  @@map("eval_cases")
+}
+
+model EvalRun {
+  id            String   @id @default(cuid())
+  evalCaseId    String
+  evalCase      EvalCase @relation(fields: [evalCaseId], references: [id], onDelete: Cascade)
+  interactionId String?
+  modelName     String
+  score         Float
+  rawResult     Json
+  createdAt     DateTime @default(now())
+
+  @@index([evalCaseId])
+  @@index([createdAt])
+  @@map("eval_runs")
+}
+
+model Bookmark {
+  id            String      @id @default(cuid())
+  interactionId String
+  interaction   Interaction @relation(fields: [interactionId], references: [id], onDelete: Cascade)
+  title         String?
+  note          String?
+  createdAt     DateTime    @default(now())
+
+  @@index([createdAt])
+  @@map("bookmarks")
+}

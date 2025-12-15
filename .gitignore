@@ -1,0 +1,55 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Evaluation reports
+evaluation-report-*.json
+packages/core/eval-reports/*.json
+
+# Next.js
+.next
+out
+
+# Production
+dist
+build
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local env files
+.env
+.env*.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+.playwright*
+
+# GitHub - only keep workflows and YAML files
+.github/*
+!.github/workflows/
+!.github/*.yml
+!.github/*.yaml
