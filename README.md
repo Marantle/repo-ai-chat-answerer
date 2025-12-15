@@ -2,8 +2,24 @@
 
 RAG system for querying codebases using semantic search and LLM-powered Q&A.
 
+## Purpose of this app
+This is a hobby project that I made to get familiar with how LLM AI's work, inspiration for this was to be learn to be something more than just  a prompt engineer that talks to AI agent and asks them to do slop, and then writing to their CV that their role is "AI Lead" or a "Professional AI Developer", ie. Prompt Engineer
+
 ## AI Usage
-Chatgpt was heavily used to inform me on how to use OpenAi API and how its reponses and vectors work in practice, like using pgvector and how to set it up so stuff related to that was also written by Claude
+That said, I was also a bit of a Prompt Engineer with this one, as Chatgpt was heavily used to inform me on how to use OpenAi API and how its reponses and vectors work in practice, like using pgvector and how to set it up so stuff related to that was also written by Claude
+Also logging, lots of it was injected by Claude to debug some issues
+
+## Demo
+
+### Frontend in Action
+![Demo Video](demo.mkv)
+
+*Watch the full demo to see the chat interface, semantic search, bookmarks, analytics dashboard, and admin panel in action.*
+
+### Ingestion Process
+![Ingestion Example](ingest_example.png)
+
+*Example output from the batch ingestion CLI showing repository scanning, chunking, embedding generation, and database storage.*
 
 ## Architecture
 
@@ -21,6 +37,40 @@ packages/
   core/             # RAG pipeline, ingestion, evaluation
   db/               # Prisma schema, migrations, client
 ```
+
+## How It Works
+
+### Vector Embeddings & Semantic Search
+
+The system uses OpenAI's **text-embedding-3-small** model to convert code and documentation into 1536-dimensional vectors. Each code chunk is embedded and stored in PostgreSQL with the **pgvector** extension, enabling semantic similarity search using cosine distance.
+
+**The RAG Pipeline:**
+
+1. **Ingestion**: Code is chunked into semantic units (functions, classes, doc blocks) with 10-line overlap
+2. **Embedding**: Each chunk is converted to a vector via OpenAI's embedding API (batched in groups of 50)
+3. **Storage**: Vectors are stored in PostgreSQL with **IVFFlat** indexing for fast approximate nearest neighbor search
+4. **Query**: User questions are embedded using the same model
+5. **Retrieval**: Vector similarity search finds the top 8 most relevant chunks (configurable)
+6. **Generation**: Retrieved context is injected into GPT-4o-mini's prompt, which streams a response via SSE
+
+**Why pgvector?**
+- Stores embeddings directly in PostgreSQL (no separate vector DB needed)
+- Supports cosine similarity, L2 distance, and inner product
+- IVFFlat index provides ~10x faster search than sequential scan
+- Native integration with Prisma ORM
+
+**Vector Storage:**
+- Each embedding is stored as a **`vector(1536)`** column in the `chunks` table
+- Vectors are stored as fixed-size arrays in PostgreSQL (not serialized JSON)
+- IVFFlat index created with: `CREATE INDEX ON chunks USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);`
+- Query uses native SQL: `SELECT * FROM chunks ORDER BY embedding <=> $1 LIMIT 8`
+
+**API Calls Per Chat:**
+- **2 OpenAI API calls** per user question:
+  1. **Embedding API** (text-embedding-3-small): Convert question to vector
+  2. **Chat API** (gpt-4o-mini): Generate answer with retrieved context
+- **No embedding calls** during chat (only at ingestion time)
+
 
 ## Setup
 
