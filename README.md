@@ -12,7 +12,7 @@ Also logging, lots of it was injected by Claude to debug some issues
 ## Demo
 
 ### Frontend in Action
-![Demo Video](demo.mkv)
+![Demo Video](demo.mov)
 
 *Watch the full demo to see the chat interface, semantic search, bookmarks, analytics dashboard, and admin panel in action.*
 
