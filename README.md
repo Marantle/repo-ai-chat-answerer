@@ -3,10 +3,10 @@
 RAG system for querying codebases using semantic search and LLM-powered Q&A.
 
 ## Purpose of this app
-This is a hobby project that I made to get familiar with how LLM AI's work, inspiration for this was to be learn to be something more than just  a prompt engineer that talks to AI agent and asks them to do slop, and then writing to their CV that their role is "AI Lead" or a "Professional AI Developer", ie. Prompt Engineer
+This is a hobby project that I made to get familiar with how LLM AI's work, inspiration for this was tolearn to be something more than just being a prompt engineer that talks to AI agent and asks them to do slop, and then writing to their CV that their role is "AI Lead" or a "Professional AI Developer", ie. Prompt Engineer
 
 ## AI Usage
-That said, I was also a bit of a Prompt Engineer with this one, as Chatgpt was heavily used to inform me on how to use OpenAi API and how its reponses and vectors work in practice, like using pgvector and how to set it up so stuff related to that was also written by Claude
+That said, I was also a bit of a Prompt Engineer with this one, as Chatgpt was heavily used to inform me on how to use OpenAi API and how its reponses and vectors work in practice, like using pgvector, RAG, embedding and how to set it up so stuff related to that was also written by Claude
 Also logging, lots of it was injected by Claude to debug some issues
 
 ## Demo
@@ -14,7 +14,7 @@ Also logging, lots of it was injected by Claude to debug some issues
 ### Frontend in Action
 ![Demo Video](demo.mov)
 
-*Watch the full demo to see the chat interface, semantic search, bookmarks, analytics dashboard, and admin panel in action.*
+*Watch the full demo to see the chat interface, semantic search, bookmarks, and analytics dashboard in action.*
 
 ### Ingestion Process
 ![Ingestion Example](ingest_example.png)
@@ -244,15 +244,6 @@ packages/db/
 
 - Manual: `packages/core/scripts/test-*.ts`
 - Evaluation: `pnpm eval`
-- Browser: Playwright MCP for E2E
-
-## Deployment
-
-1. Set production environment variables
-2. Build: `pnpm build`
-3. Deploy database (managed PostgreSQL with pgvector)
-4. Deploy Next.js app (Vercel, Railway, etc.)
-5. Run migrations: `pnpm --filter @repo-slop/db migrate:deploy`
 
 ## License
 
